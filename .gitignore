@@ -129,3 +129,6 @@ dist
 
 # whatsapp-web.js session dir
 .wwebjs_auth/
+
+# editorconfig
+.editorconfig
