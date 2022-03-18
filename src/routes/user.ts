@@ -9,6 +9,9 @@ router.get('/', (req, res)=>{
             email: `${Math.random()}@gmail.com`,
             firstName: "Bruno",
             lastName: "Vinicius",
+            login: "12345",
+            password: "1234",
+            phoneNumber: "5587981615939",            
         }
     }).then(user=>{
         res.json(user)

@@ -21,7 +21,7 @@ class App {
     private setMiddlewares () {
         this.express.use(express.json())
         this.express.use(cors())
-        this.express.use(morgan('combined'))
+        this.express.use(morgan('dev'))
     }
     private setRoutes() {
         this.express.use('/api', router)                    // API route
