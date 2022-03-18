@@ -44,10 +44,10 @@ class App {
 
         console.log('Database connected.');
     }
-    public async initialize(): Promise<void> {
+    public async initialize(profileName: string, profileStatus: string): Promise<void> {
         await this.connectDatabase()
 
-        this.messenger = new WhatsApp('MeuIF', 'Plataforma Meu IF')
+        this.messenger = new WhatsApp(profileName, profileStatus)
         await this.messenger.initialize()
         return
     }
