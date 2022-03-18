@@ -1,5 +1,6 @@
 import * as express from 'express'
 import * as cors from 'cors'
+import * as path from 'path'
 import * as morgan from 'morgan'
 
 
@@ -11,20 +12,25 @@ import database from './database'
 class App {
     private express: express.Application;
     public messenger: WhatsApp;
+    private appDir: String;
 
     constructor () {
+        this.appDir = path.resolve(__dirname, '..', 'Views', 'build');
         this.express = express()
 
         this.setMiddlewares()
         this.setRoutes()
     }
     private setMiddlewares () {
-        this.express.use(express.json())
+        this.express.use(express.urlencoded({ limit: '50mb', extended: true }));
+        this.express.use(express.json({limit: '50mb'}))
         this.express.use(cors())
         this.express.use(morgan('dev'))
     }
     private setRoutes() {
         this.express.use('/api', router)                    // API route
+
+        this.express.get('/*', (req, res) => res.sendFile('index.html', { root: this.appDir })) // React static server route
 
         this.express.use(function (err, req, res, next) {       // Error route
             console.error(err.message)
