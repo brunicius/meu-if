@@ -1,25 +1,41 @@
 datasource db {
-    url         = env("DB_URL")
-    provider    = "postgresql"
+  url      = env("DB_URL")
+  provider = "postgresql"
 }
 
 generator client {
-    provider    = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 model User {
-    id          Int         @id @default(autoincrement())
-    login       String      @unique
-    password    String
-    email       String?      @unique
-    firstName   String
-    lastName    String
-    phoneNumber String      
-    role        Role        @default(USER)
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
+  id        Int      @id @default(autoincrement())
+  login     String   @unique
+  password  String
+  email     String?  @unique
+  firstName String
+  lastName  String
+  Phone     Phone[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-enum Role {
-    USER
+model Phone {
+  id           Int                 @id @default(autoincrement())
+  number       String              @unique @db.Char(13)
+  user         User                @relation(fields: [userId], references: [id])
+  userId       Int
+  active       Boolean             @default(false)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  Verification PhoneVerification[]
+}
+
+model PhoneVerification {
+  id         Int      @id @default(autoincrement())
+  phone      Phone    @relation(fields: [phoneId], references: [id])
+  phoneId    Int
+  used       Boolean  @default(false)
+  code       String   @db.Char(6)
+  validUntil DateTime
+  createdAt  DateTime @default(now())
 }

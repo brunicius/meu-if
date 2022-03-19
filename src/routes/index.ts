@@ -1,6 +1,5 @@
 import {Router} from 'express'
 import httpCodes from '../util/HttpCodes'
-import { isValidPhone, formatPhone } from '../validators/phone'
 import { app } from '../app'
 
 /*

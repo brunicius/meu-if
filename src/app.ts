@@ -1,8 +1,7 @@
-import * as express from 'express'
-import * as cors from 'cors'
-import * as path from 'path'
-import * as morgan from 'morgan'
-
+import express from 'express'
+import cors from 'cors'
+import path from 'path'
+import morgan from 'morgan'
 
 import httpCodes from './util/HttpCodes'        // HTTP Code List
 import WhatsApp from './controllers/Whatsapp'   // WhatsApp module import
@@ -12,7 +11,7 @@ import database from './database'
 class App {
     private express: express.Application;
     public messenger: WhatsApp;
-    private appDir: String;
+    private appDir: string;
 
     constructor () {
         this.appDir = path.resolve(__dirname, '..', 'Views', 'build');
@@ -25,12 +24,14 @@ class App {
         this.express.use(express.urlencoded({ limit: '50mb', extended: true }));
         this.express.use(express.json({limit: '50mb'}))
         this.express.use(cors())
-        this.express.use(morgan('dev'))
+        this.express.use(morgan('combined'))
     }
     private setRoutes() {
+        this.express.use('/', express.static(this.appDir))
         this.express.use('/api', router)                    // API route
 
-        this.express.get('/*', (req, res) => res.sendFile('index.html', { root: this.appDir })) // React static server route
+
+        //this.express.get('/*', (req, res) => res.sendFile('index.html', { root: this.appDir })) // React static server route
 
         this.express.use(function (err, req, res, next) {       // Error route
             console.error(err.message)
@@ -44,11 +45,11 @@ class App {
 
         console.log('Database connected.');
     }
-    public async initialize(profileName: string, profileStatus: string): Promise<void> {
+    public async initialize(profileName: string, profileStatus: string, sessionName?: string): Promise<void> {
         await this.connectDatabase()
 
-        this.messenger = new WhatsApp(profileName, profileStatus)
-        await this.messenger.initialize()
+        this.messenger = new WhatsApp(profileName, profileStatus, sessionName)
+        //await this.messenger.initialize()
         return
     }
     public listen(port, callback: () => void) {

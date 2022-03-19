@@ -7,23 +7,24 @@ class WhatsappMessenger extends Messenger {
     protected profileName: string;
     protected profileStatus: string;
     protected client: Client;
+    protected sessionName: string;
 
-    constructor(profileName?: string, profileStatus?:string) {
+    constructor(profileName?: string, profileStatus?:string, sessionName?: string) {
         super()
-        this.profileName = profileName
-        this.profileStatus = profileStatus
+        this.profileName    = profileName   || 'Profile name'
+        this.profileStatus  = profileStatus || 'Profile status'  
+        this.sessionName    = sessionName   || 'session'
 
         this.client = new Client({
             authStrategy: new LocalAuth({
-                clientId: profileName ? profileName : 'session'
+                clientId: this.validateSessionName(this.sessionName)
             }),
             puppeteer: {
                 headless: false
-            },
-            //userAgent: 'Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 5.0; Trident/3.1)'
+            }            
         })
         this.client.on('qr', qr=>{                                  // Write QR code to terminal
-            console.log('Please read the QR code:');
+            console.log('Please read the QR code to session: ' + this.sessionName);
             qrcode.generate(qr, {small: true})
         })
         this.client.on('auth_failure', message=>{                   // Write to terminal when auth fail
@@ -43,6 +44,13 @@ class WhatsappMessenger extends Messenger {
         })
     }
 
+    validateSessionName(sessionName: string): string {
+        let regex = /[ ]/gm
+        if (regex.test(sessionName))
+            return sessionName.replace(regex,'')
+
+        return sessionName
+    }
     isReady() {
         return this.ready;
     }
