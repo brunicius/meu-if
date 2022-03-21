@@ -24,14 +24,11 @@ class App {
         this.express.use(express.urlencoded({ limit: '50mb', extended: true }));
         this.express.use(express.json({limit: '50mb'}))
         this.express.use(cors())
-        this.express.use(morgan('combined'))
+        this.express.use(morgan('dev'))
     }
     private setRoutes() {
         this.express.use('/', express.static(this.appDir))
         this.express.use('/api', router)                    // API route
-
-
-        //this.express.get('/*', (req, res) => res.sendFile('index.html', { root: this.appDir })) // React static server route
 
         this.express.use(function (err, req, res, next) {       // Error route
             console.error(err.message)

@@ -15,10 +15,9 @@ class UserController {
         let recordList = await Database.user.findMany()
 
         for (let i in recordList) {
-            let user = new User({
+            userList.push(new User({
                 ...recordList[i]
-            })
-            userList.push(user)
+            }))
         }
 
         return userList;
