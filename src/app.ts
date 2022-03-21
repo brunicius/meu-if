@@ -13,16 +13,16 @@ class App {
     public messenger: WhatsApp;
     private appDir: string;
 
-    constructor () {
+    constructor() {
         this.appDir = path.resolve(__dirname, '..', 'Views', 'build');
         this.express = express()
 
         this.setMiddlewares()
         this.setRoutes()
     }
-    private setMiddlewares () {
+    private setMiddlewares() {
         this.express.use(express.urlencoded({ limit: '50mb', extended: true }));
-        this.express.use(express.json({limit: '50mb'}))
+        this.express.use(express.json({ limit: '50mb' }))
         this.express.use(cors())
         this.express.use(morgan('dev'))
     }
@@ -46,7 +46,12 @@ class App {
         await this.connectDatabase()
 
         this.messenger = new WhatsApp(profileName, profileStatus, sessionName)
-        //await this.messenger.initialize()
+        if(process.env.NOTINICIALIZEWA!='true'){
+            await this.messenger.initialize()
+        }else{
+            console.log('Inicialização do WhatsApp abortada');
+        }
+
         return
     }
     public listen(port, callback: () => void) {
@@ -55,7 +60,7 @@ class App {
 }
 
 // Create App and WhatsApp instance
-const  app = new App()
+const app = new App()
 
 export {
     app
