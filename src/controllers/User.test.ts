@@ -1,8 +1,16 @@
 import { userController } from ".";
+import User from "../models/User";
 
 test('Test user controller', ()=>{
-    let user = userController.getById(0)
+    let query = userController.createUser(new User({
+        firstName: "Bruno",
+        lastName: "Vinicius",
+        login: "1045125",
+        password: "amnsidmf",
+        email: "mosdfmo@mafsdf.com"
+    }))
 
-    console.log(user);
-
+    query.then(user=>{
+        expect(user).toBe(typeof User)
+    })
 })

@@ -1,2 +1,0 @@
-import Phone from "./Phone";
-

@@ -36,6 +36,7 @@ model PhoneVerification {
   phoneId    Int
   used       Boolean  @default(false)
   code       String   @db.Char(6)
+  uuid       String
   validUntil DateTime
   createdAt  DateTime @default(now())
 }

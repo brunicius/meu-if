@@ -7,6 +7,7 @@ import httpCodes from './util/HttpCodes'        // HTTP Code List
 import WhatsApp from './controllers/Whatsapp'   // WhatsApp module import
 import router from './routes'               // Main route import
 import database from './database'
+import auth from './middlewares/authentication'
 
 class App {
     private express: express.Application;
@@ -17,6 +18,7 @@ class App {
         this.appDir = path.resolve(__dirname, '..', 'Views', 'build');
         this.express = express()
 
+        this.express.disable('x-powered-by')
         this.setMiddlewares()
         this.setRoutes()
     }
@@ -30,11 +32,20 @@ class App {
         this.express.use('/', express.static(this.appDir))
         this.express.use('/api', router)                    // API route
 
-        this.express.use(function (err, req, res, next) {       // Error route
-            console.error(err.message)
-            res.status(httpCodes.SERVICE_UNAVAILABLE).json({
-                error: err.message
+
+        this.express.use(function(req, res, next) {
+            res.status(httpCodes.NOT_FOUND).json({
+                error: "This route does not exist."
             })
+        });
+        this.express.use(function (err, req, res, next) {       // Error route
+            if (err) {
+                console.error(err.message)
+                res.status(httpCodes.SERVICE_UNAVAILABLE).json({
+                    error: err.message
+                })
+                next()
+            }
         })
     }
     private async connectDatabase() {
@@ -46,11 +57,10 @@ class App {
         await this.connectDatabase()
 
         this.messenger = new WhatsApp(profileName, profileStatus, sessionName)
-        if(process.env.NOTINICIALIZEWA!='true'){
+        if (process.env.DISABLE_WHATSAPP!='true')
             await this.messenger.initialize()
-        }else{
-            console.log('Inicialização do WhatsApp abortada');
-        }
+        else
+            console.log('WhatsApp module disabled');
 
         return
     }
