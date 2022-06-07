@@ -16,6 +16,6 @@ app.initialize(PROFILE_NAME, PROFILE_STATUS, SESSION_NAME).then(()=>{
 })
 
 process.on('SIGINT', ()=>{
-    server.close()
+    server?.close()
     console.log('App stopped.');
 })

@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import User from '../models/User';
 import Database from '../database'
-import IUser from '../interfaces/IUser';
 import EmailValidators from '../validators/email';
 class UserController {
     private database: PrismaClient;
@@ -119,6 +118,24 @@ class UserController {
         return new User({
             ...deletedUser
         })
+    }
+    public async userExists(userLogin?: string, userEmail?: string): Promise<boolean> {
+        if (!userLogin && !userEmail)
+            throw new Error("Email or login required.")
+
+        let existentUser = await Database.user.findFirst({
+            where: {
+                OR: [
+                    (userLogin ? {login: userLogin} : null),
+                    (userEmail ? {email: userEmail} : null)
+                ]
+            }
+        })
+
+        if (existentUser)
+            return true
+
+        return false
     }
 }
 

@@ -5,9 +5,10 @@ import { app } from '../app'
 /*
     Routes import
  */
-import userRoute from './user'
-import authRoute from './auth'
-import auth from '../middlewares/authentication'
+import userRoute        from './user'
+import authRoute        from './auth'
+import registerRoute    from './register'
+import auth             from '../middlewares/authentication'
 
 
 const router = Router()
@@ -18,6 +19,7 @@ router.get('/', (req, res)=>{
         time: new Date()
     })
 })
+router.use('/register', registerRoute)
 router.use('/auth', authRoute)      // Auth route
 router.use(auth)                    // Auth middleware
 router.use('/user', userRoute)      // Users route

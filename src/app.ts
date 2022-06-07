@@ -15,7 +15,7 @@ class App {
     private appDir: string;
 
     constructor() {
-        this.appDir = path.resolve(__dirname, '..', 'Views', 'build');
+        this.appDir = path.resolve(__dirname, '..', 'views', 'build');
         this.express = express()
 
         this.express.disable('x-powered-by')
@@ -29,7 +29,7 @@ class App {
         this.express.use(morgan('dev'))
     }
     private setRoutes() {
-        this.express.use('/', express.static(this.appDir))
+        this.express.use('/', express.static(this.appDir))  // React app route
         this.express.use('/api', router)                    // API route
 
 
@@ -38,6 +38,7 @@ class App {
                 error: "This route does not exist."
             })
         });
+
         this.express.use(function (err, req, res, next) {       // Error route
             if (err) {
                 console.error(err.message)

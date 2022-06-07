@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import IUserJwtPayload from '../interfaces/IUserJWTPayload'
+import IUserJwtPayload from '../interfaces/IUserJwtPayload'
 import httpCodes from '../util/HttpCodes'
 
 const auth = (req: Request, res: Response, next: NextFunction) => {
