@@ -1,15 +1,14 @@
-import {Router} from 'express'
-import httpCodes from '../util/HttpCodes'
-import { app } from '../app'
+import { Router } from "express";
+import httpCodes from "../util/HttpCodes";
+import { app } from "../app";
 
+const router = Router();
 
-const router = Router()
+router.get("/", (req, res) => {
+  return res.json({
+    success: true,
+    time: new Date(),
+  });
+});
 
-router.get('/', (req, res)=>{
-    return res.json({
-        success: true,
-        time: new Date()
-    })
-})
-
-export default router
+export default router;

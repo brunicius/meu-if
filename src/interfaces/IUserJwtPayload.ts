@@ -1,8 +1,8 @@
 interface IUserJwtPayload {
-    id          : number,
-    firstName   : string,
-    lastName    : string,
-    username    : string
+  id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
 }
 
-export default IUserJwtPayload
+export default IUserJwtPayload;

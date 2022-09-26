@@ -1,11 +1,11 @@
 const hasChanges = (properties: object, newProperties: object): boolean => {
-  let changes: boolean = false
+  let changes: boolean = false;
   for (let i in Object.keys(newProperties)) {
-    let key = Object.keys(newProperties)[i]
+    let key = Object.keys(newProperties)[i];
 
-    if (properties[key] != newProperties[key]) changes = true
+    if (properties[key] != newProperties[key]) changes = true;
   }
-  return changes
-}
+  return changes;
+};
 
-export default hasChanges
+export default hasChanges;
