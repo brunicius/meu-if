@@ -1,0 +1,8 @@
+{
+  "cron": {
+    "autostart": true,
+    "time_pattern": "* * * * *"
+  },
+  "disable_messengers": true
+}
+

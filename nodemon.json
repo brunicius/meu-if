@@ -1,6 +1,7 @@
 {
-	"watch": ["src"],
-	"ext": ".ts,.js",
-	"ignore": [],
-	"exec": "ts-node ./src/index.ts"
+  "watch": ["src"],
+  "ext": ".ts,.js",
+  "ignore": [".wwebjs_auth"],
+  "exec": "ts-node ./src/index.ts"
 }
+
